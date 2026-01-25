@@ -47,21 +47,6 @@ shape = SubResource("RectangleShape2D_0e48y")
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Party/MainChar/Camera2D"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -286.0
-offset_top = 89.0
-offset_right = 290.0
-offset_bottom = 227.0
-grow_horizontal = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Party/MainChar/Camera2D/AspectRatioContainer"]
-layout_mode = 2
-text = "This is example textThis is example textThis is exampldse textThis is example textThis is example text "
-fit_content = true
-
 [node name="Follower1" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
 script = ExtResource("3_0hol4")
 Leader = NodePath("../MainChar")
