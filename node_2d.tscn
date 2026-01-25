@@ -10,7 +10,7 @@
 size = Vector2(123, 122)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
-size = Vector2(126, 126)
+size = Vector2(64, 64)
 
 [node name="Node2D" type="Node2D"]
 
@@ -37,10 +37,30 @@ script = ExtResource("1_0e48y")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Party/MainChar"]
+scale = Vector2(2, 2)
 texture = ExtResource("3_q6r6c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Party/MainChar"]
 shape = SubResource("RectangleShape2D_0e48y")
+
+[node name="Camera2D" type="Camera2D" parent="Party/MainChar"]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Party/MainChar/Camera2D"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -286.0
+offset_top = 89.0
+offset_right = 290.0
+offset_bottom = 227.0
+grow_horizontal = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Party/MainChar/Camera2D/AspectRatioContainer"]
+layout_mode = 2
+text = "This is example textThis is example textThis is exampldse textThis is example textThis is example text "
+fit_content = true
 
 [node name="Follower1" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
 script = ExtResource("3_0hol4")
@@ -48,7 +68,8 @@ Leader = NodePath("../MainChar")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Party/Follower1"]
-texture = ExtResource("2_0e48y")
+scale = Vector2(2, 2)
+texture = ExtResource("3_q6r6c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower1"]
 shape = SubResource("RectangleShape2D_0e48y")
@@ -60,7 +81,8 @@ Leader = NodePath("../Follower1")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Party/Follower2"]
-texture = ExtResource("2_0e48y")
+scale = Vector2(2, 2)
+texture = ExtResource("3_q6r6c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower2"]
 shape = SubResource("RectangleShape2D_0e48y")
