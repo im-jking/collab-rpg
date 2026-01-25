@@ -1,49 +1,55 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using Godot;
 
 public partial class MainFollower : CharacterBody2D
 {
-	[Export]
-	public MainCharControl Leader {get; set;} = null;
-	
-	public int Speed {get; set;} = 0;
-	private Queue<Vector2> followQueue;
+    [Export]
+    public MainCharControl Leader { get; set; } = null;
 
-	public override void _Ready()
-	{
-		if(Leader != null)
-		{
-			Speed = Leader.Speed;
-		}
+    [Export]
+    public int FollowDistance { get; set; } = 10;
 
-		followQueue = new Queue<Vector2>();
-	}
+    public int Speed { get; set; } = 0;
+    private Queue<Vector2> followQueue;
 
-	public override void _PhysicsProcess(double delta)
-	{
-		// Require leader to process any movement
-		if(Leader == null) {
-			Console.WriteLine("Leader is null");
-			return;
-		}
+    public override void _Ready()
+    {
+        if (Leader != null)
+        {
+            Speed = Leader.Speed;
+        }
 
-		// Only move when the leader moves
-		if(Leader.Velocity != new Vector2(0,0))
-		{
-			FollowLeader();
-		}
-	}
+        followQueue = new Queue<Vector2>();
+    }
 
-	public void FollowLeader() {
-		// Delay movement
-		if (followQueue.Count > 30) {
-			// Remove and return least recent Velocity
-			Velocity = followQueue.Dequeue();
+    public override void _PhysicsProcess(double delta)
+    {
+        // Require leader to process any movement
+        if (Leader == null)
+        {
+            Console.WriteLine("Leader is null");
+            return;
+        }
 
-			MoveAndSlide();	
-		}
+        // Only move when the leader moves
+        if (Leader.Velocity != new Vector2(0, 0))
+        {
+            FollowLeader();
+        }
+    }
 
-		followQueue.Enqueue(Leader.Velocity);
-	}
+    public void FollowLeader()
+    {
+        // Delay movement
+        if (followQueue.Count > FollowDistance)
+        {
+            // Remove and return least recent Velocity
+            Velocity = followQueue.Dequeue();
+
+            MoveAndSlide();
+        }
+
+        followQueue.Enqueue(Leader.Velocity);
+    }
 }
