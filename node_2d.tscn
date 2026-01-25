@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://bqgsdgvelbxj0"]
+
+[ext_resource type="Script" uid="uid://b5x11ccdaof7d" path="res://MainCharControl.cs" id="1_0e48y"]
+[ext_resource type="Texture2D" uid="uid://cjeqwlfb3gp4x" path="res://icon.svg" id="2_0e48y"]
+[ext_resource type="Script" uid="uid://dqtkuiimqvgoa" path="res://MainFollower.cs" id="3_0hol4"]
+[ext_resource type="Texture2D" uid="uid://uvagac35qvxw" path="res://strawb.png" id="3_q6r6c"]
+[ext_resource type="Script" uid="uid://dcmkg5h7r2qeg" path="res://NpcFollower.cs" id="4_q6r6c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epypp"]
+size = Vector2(123, 122)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
+size = Vector2(126, 126)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Wall" type="RigidBody2D" parent="."]
+position = Vector2(431, 181)
+gravity_scale = 0.0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2(-0.5, 1)
+scale = Vector2(3.255, 1)
+shape = SubResource("RectangleShape2D_epypp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall"]
+scale = Vector2(3.255, 1)
+texture = ExtResource("2_0e48y")
+
+[node name="Party" type="Node2D" parent="."]
+position = Vector2(190, 445)
+metadata/_edit_group_ = true
+
+[node name="MainChar" type="CharacterBody2D" parent="Party"]
+script = ExtResource("1_0e48y")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Party/MainChar"]
+texture = ExtResource("3_q6r6c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/MainChar"]
+shape = SubResource("RectangleShape2D_0e48y")
+
+[node name="Follower1" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
+script = ExtResource("3_0hol4")
+Leader = NodePath("../MainChar")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Party/Follower1"]
+texture = ExtResource("2_0e48y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower1"]
+shape = SubResource("RectangleShape2D_0e48y")
+disabled = true
+
+[node name="Follower2" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
+script = ExtResource("4_q6r6c")
+Leader = NodePath("../Follower1")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Party/Follower2"]
+texture = ExtResource("2_0e48y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower2"]
+shape = SubResource("RectangleShape2D_0e48y")
+disabled = true
