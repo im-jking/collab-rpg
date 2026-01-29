@@ -47,6 +47,31 @@ shape = SubResource("RectangleShape2D_0e48y")
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
+[node name="TextBox" type="Control" parent="Party/MainChar/Camera2D"]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Party/MainChar/Camera2D/TextBox"]
+layout_mode = 0
+offset_left = -258.0
+offset_top = 66.0
+offset_right = 261.0
+offset_bottom = 132.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Party/MainChar/Camera2D/TextBox/MarginContainer"]
+layout_mode = 2
+text = "# Straw
+This is example text! And it goes on and on and on and on and on and on and on and on and on and on and on and on and on and on and on"
+fit_content = true
+
+[node name="ColorRect" type="ColorRect" parent="Party/MainChar/Camera2D/TextBox/MarginContainer"]
+z_index = -1
+layout_mode = 2
+color = Color(0.16078432, 0.16078432, 0.16078432, 0.57254905)
+
 [node name="Follower1" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
 script = ExtResource("3_0hol4")
 Leader = NodePath("../MainChar")
