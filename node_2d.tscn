@@ -119,31 +119,6 @@ shape = SubResource("RectangleShape2D_0e48y")
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
-[node name="TextBox" type="Control" parent="Party/MainChar/Camera2D"]
-layout_direction = 1
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="Party/MainChar/Camera2D/TextBox"]
-layout_mode = 0
-offset_left = -258.0
-offset_top = 66.0
-offset_right = 261.0
-offset_bottom = 132.0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Party/MainChar/Camera2D/TextBox/MarginContainer"]
-layout_mode = 2
-text = "# Straw
-This is example text! And it goes on and on and on and on and on and on and on and on and on and on and on and on and on and on and on"
-fit_content = true
-
-[node name="ColorRect" type="ColorRect" parent="Party/MainChar/Camera2D/TextBox/MarginContainer"]
-z_index = -1
-layout_mode = 2
-color = Color(0.16078432, 0.16078432, 0.16078432, 0.57254905)
-
 [node name="Follower1" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
 script = ExtResource("3_0hol4")
 Leader = NodePath("../MainChar")
@@ -174,7 +149,6 @@ disabled = true
 position = Vector2(554, 340)
 gravity_scale = 0.0
 script = ExtResource("6_d21ai")
-metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TalkNPC"]
 scale = Vector2(2, 2)
@@ -189,3 +163,21 @@ libraries = {
 scale = Vector2(2, 2)
 texture = ExtResource("6_kdubu")
 hframes = 6
+
+[node name="TextBox" type="ColorRect" parent="TalkNPC"]
+z_index = -1
+clip_contents = true
+offset_left = -125.0
+offset_top = 16.0
+offset_right = 125.0
+offset_bottom = 65.0
+color = Color(0.16078432, 0.16078432, 0.16078432, 0.57254905)
+metadata/_edit_group_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TalkNPC/TextBox"]
+z_index = 2
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 49.0
+text = "This is example text! And it goes on and on and on and on and on and on and on and on and on and on and on and on and on and on and on"
+scroll_following_visible_characters = true
