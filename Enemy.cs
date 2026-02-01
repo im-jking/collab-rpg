@@ -58,15 +58,10 @@ public partial class Enemy : CharacterBody2D
         // If the player is visible, move toward it
         if (result.Count > 0)
         {
-            GD.Print(
-                "Collision with result ",
-                (ulong)result["collider_id"],
-                " and target ",
-                _mainChar.GetInstanceId()
-            );
             if (((ulong)result["collider_id"]) == _mainChar.GetInstanceId())
             {
                 Velocity = Speed * Position.DirectionTo(_mainChar.GlobalTransform.Origin);
+                MoveAndSlide();
             }
         }
     }
