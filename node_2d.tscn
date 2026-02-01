@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bqgsdgvelbxj0"]
+[gd_scene load_steps=16 format=3 uid="uid://bqgsdgvelbxj0"]
 
 [ext_resource type="Script" uid="uid://b5x11ccdaof7d" path="res://MainCharControl.cs" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://b4dk7ll28g0hy" path="res://brick-wall.png" id="1_q6r6c"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dcmkg5h7r2qeg" path="res://NpcFollower.cs" id="4_q6r6c"]
 [ext_resource type="Script" uid="uid://c6rw07jf1dnfo" path="res://TalkNpc.cs" id="6_d21ai"]
 [ext_resource type="Texture2D" uid="uid://y84lsqamhuqv" path="res://golden-retriever-Sheet.png" id="6_kdubu"]
+[ext_resource type="Script" uid="uid://6qcbw73ko2cf" path="res://SpeechText.cs" id="8_rj586"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_epypp"]
 size = Vector2(123, 122)
@@ -79,6 +80,8 @@ _data = {
 &"RESET": SubResource("Animation_d21ai"),
 &"idle": SubResource("Animation_kdubu")
 }
+
+[sub_resource type="Theme" id="Theme_d21ai"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -168,16 +171,46 @@ hframes = 6
 z_index = -1
 clip_contents = true
 offset_left = -125.0
-offset_top = 16.0
+offset_top = 30.0
 offset_right = 125.0
-offset_bottom = 65.0
+offset_bottom = 79.0
 color = Color(0.16078432, 0.16078432, 0.16078432, 0.57254905)
 metadata/_edit_group_ = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="TalkNPC/TextBox"]
+[node name="SpeechText" type="RichTextLabel" parent="TalkNPC/TextBox"]
 z_index = 2
 layout_mode = 0
 offset_right = 250.0
 offset_bottom = 49.0
 text = "This is example text! And it goes on and on and on and on and on and on and on and on and on and on and on and on and on and on and on"
-scroll_following_visible_characters = true
+scroll_active = false
+horizontal_alignment = 1
+script = ExtResource("8_rj586")
+
+[node name="IntTextControl" type="Control" parent="TalkNPC"]
+visible = false
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_d21ai")
+
+[node name="InteractText" type="RichTextLabel" parent="TalkNPC/IntTextControl"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 51.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press E"
+horizontal_alignment = 1
