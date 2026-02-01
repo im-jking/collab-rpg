@@ -37,7 +37,6 @@ public partial class TalkNpc : RigidBody2D
         // This requires the Party be on the same depth as the NPC
         if (_mainChar == null)
         {
-            GD.Print("Character not found");
             _mainChar = GetNode<CharacterBody2D>("../Party/MainChar");
             _mainScript = _mainChar as MainCharControl;
         }
