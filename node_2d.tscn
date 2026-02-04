@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bqgsdgvelbxj0"]
+[gd_scene load_steps=19 format=3 uid="uid://bqgsdgvelbxj0"]
 
 [ext_resource type="Script" uid="uid://b5x11ccdaof7d" path="res://MainCharControl.cs" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://b4dk7ll28g0hy" path="res://brick-wall.png" id="1_q6r6c"]
@@ -87,11 +87,6 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir8iy"]
 size = Vector2(20, 21.333334)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_ir8iy"]
-vertices = PackedVector2Array(1142, 10.0078125, 1142, 634.03906, 642.3281, 253, 637.6797, 107.92969, 10, 638.9531, 220, 253, 10, 244, 220, 111.078125, 9.9921875, 11.9765625)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(8, 0, 3, 7), PackedInt32Array(6, 8, 7)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1152, 0, 1152, 644, 0, 649, 0, 243, 632, 243, 628, 118, 230, 121, 230, 243, 0, 244, 0, 2)])
 
 [node name="Node2D" type="Node2D"]
 
@@ -225,13 +220,12 @@ grow_vertical = 0
 text = "Press E"
 horizontal_alignment = 1
 
-[node name="Enemy" type="CharacterBody2D" parent="." node_paths=PackedStringArray("_navigationAgent")]
+[node name="Enemy" type="CharacterBody2D" parent="."]
 position = Vector2(93, 213)
 scale = Vector2(2, 2)
 motion_mode = 1
 script = ExtResource("9_ir8iy")
 Speed = 50
-_navigationAgent = NodePath("NavigationAgent2D")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
@@ -245,6 +239,3 @@ texture = ExtResource("9_4d7sh")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy"]
 path_desired_distance = 50.0
 target_desired_distance = 50.0
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_ir8iy")
