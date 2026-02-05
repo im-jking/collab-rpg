@@ -74,5 +74,10 @@ public partial class MainCharControl : CharacterBody2D
                 }
             }
         }
+        else
+        {
+            // If no crumbs yet, place one!
+            breadcrumbs.Enqueue(curPos);
+        }
     }
 }

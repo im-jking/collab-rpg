@@ -56,33 +56,39 @@ public partial class Enemy : CharacterBody2D
         query.Exclude = [GetRid()];
         Godot.Collections.Dictionary result = spaceState.IntersectRay(query);
 
-        // If the player is visible, move toward it
-        if (result.Count > 0)
+        // If the player is visible and unobstructed, move toward it
+        if (result.Count > 0 && ((ulong)result["collider_id"]) == _mainChar.GetInstanceId())
         {
-            if (((ulong)result["collider_id"]) == _mainChar.GetInstanceId())
+            Velocity = Speed * Position.DirectionTo(_mainChar.GlobalTransform.Origin);
+            MoveAndSlide();
+        }
+        else // Non-player entity, or nothing, in line of sight
+        {
+            // Move around walls by tracking breadcrumbs
+            foreach (Vector2 crumb in _mainChar.breadcrumbs)
             {
-                Velocity = Speed * Position.DirectionTo(_mainChar.GlobalTransform.Origin);
-                MoveAndSlide();
-            }
-            else // Move around walls by tracking breadcrumbs
-            {
-                foreach (Vector2 crumb in _mainChar.breadcrumbs)
-                {
-                    // Raycast to see if accessible
-                    PhysicsRayQueryParameters2D ray = PhysicsRayQueryParameters2D.Create(
-                        GlobalTransform.Origin,
-                        crumb
-                    );
-                    ray.Exclude = [GetRid()];
-                    var crumbResult = spaceState.IntersectRay(ray);
+                // Raycast to see if accessible
+                PhysicsRayQueryParameters2D ray = PhysicsRayQueryParameters2D.Create(
+                    GlobalTransform.Origin,
+                    crumb
+                );
+                ray.Exclude = [GetRid()];
+                var crumbResult = spaceState.IntersectRay(ray);
 
-                    // Nothing is obstructing this movement - go toward this
-                    if (crumbResult.Count == 0)
+                // Nothing is obstructing this movement - go toward this
+                if (crumbResult.Count == 0)
+                {
+                    String crumbString = "";
+                    foreach (Vector2 stringCrumb in _mainChar.breadcrumbs)
                     {
-                        Velocity = Speed * Position.DirectionTo(_mainChar.GlobalTransform.Origin);
-                        MoveAndSlide();
-                        break;
+                        crumbString += "[" + stringCrumb.X + ", " + stringCrumb.Y + "],";
                     }
+                    GD.Print("Moving toward crumb at ", crumb);
+                    GD.Print("Breadcrumbs = ", crumbString);
+
+                    Velocity = Speed * Position.DirectionTo(crumb);
+                    MoveAndSlide();
+                    break;
                 }
             }
         }
