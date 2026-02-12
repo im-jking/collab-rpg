@@ -68,7 +68,7 @@ public partial class MainCharControl : CharacterBody2D
                 breadcrumbs.Enqueue(curPos);
 
                 // If queue is long enough, remove the earliest entry
-                if (breadcrumbs.Count > 10)
+                if (breadcrumbs.Count > 20)
                 {
                     breadcrumbs.Dequeue();
                 }

@@ -225,7 +225,7 @@ position = Vector2(93, 213)
 scale = Vector2(2, 2)
 motion_mode = 1
 script = ExtResource("9_ir8iy")
-Speed = 50
+Speed = 100
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]

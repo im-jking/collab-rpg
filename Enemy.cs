@@ -13,6 +13,9 @@ public partial class Enemy : CharacterBody2D
     // Are we aggroed to the MainChar?
     private bool _isAggro = false;
 
+    // Current target of movement
+    private Vector2 target;
+
     public override void _Ready() { }
 
     public override void _Process(double delta)
@@ -59,38 +62,69 @@ public partial class Enemy : CharacterBody2D
         // If the player is visible and unobstructed, move toward it
         if (result.Count > 0 && ((ulong)result["collider_id"]) == _mainChar.GetInstanceId())
         {
-            Velocity = Speed * Position.DirectionTo(_mainChar.GlobalTransform.Origin);
-            MoveAndSlide();
+            target = _mainChar.GlobalTransform.Origin;
         }
         else // Non-player entity, or nothing, in line of sight
         {
             // Move around walls by tracking breadcrumbs
             foreach (Vector2 crumb in _mainChar.breadcrumbs)
             {
-                // Raycast to see if accessible
-                PhysicsRayQueryParameters2D ray = PhysicsRayQueryParameters2D.Create(
-                    GlobalTransform.Origin,
-                    crumb
+                Rect2 shape = GetNode<CollisionShape2D>("CollisionShape2D").Shape.GetRect();
+                float width = shape.Size.X;
+                float height = shape.Size.Y;
+
+                // Raycast to see if accessible - must be visible from all four corners of enemy
+                PhysicsRayQueryParameters2D topRightRay = PhysicsRayQueryParameters2D.Create(
+                    GlobalTransform.Origin + new Vector2(width, height),
+                    crumb,
+                    exclude: [GetRid()]
                 );
-                ray.Exclude = [GetRid()];
-                var crumbResult = spaceState.IntersectRay(ray);
+                var topRightResult = spaceState.IntersectRay(topRightRay);
+
+                PhysicsRayQueryParameters2D topLeftRay = PhysicsRayQueryParameters2D.Create(
+                    GlobalTransform.Origin + new Vector2(-width, height),
+                    crumb,
+                    exclude: [GetRid()]
+                );
+                var topLeftResult = spaceState.IntersectRay(topLeftRay);
+
+                PhysicsRayQueryParameters2D botRightRay = PhysicsRayQueryParameters2D.Create(
+                    GlobalTransform.Origin + new Vector2(width, -height),
+                    crumb,
+                    exclude: [GetRid()]
+                );
+                var botRightResult = spaceState.IntersectRay(botRightRay);
+
+                PhysicsRayQueryParameters2D botLeftRay = PhysicsRayQueryParameters2D.Create(
+                    GlobalTransform.Origin + new Vector2(-width, -height),
+                    crumb,
+                    exclude: [GetRid()]
+                );
+                var botLeftResult = spaceState.IntersectRay(botLeftRay);
 
                 // Nothing is obstructing this movement - go toward this
-                if (crumbResult.Count == 0)
+                if (
+                    topRightResult.Count == 0
+                    && topLeftResult.Count == 0
+                    && botRightResult.Count == 0
+                    && botLeftResult.Count == 0
+                )
                 {
                     String crumbString = "";
                     foreach (Vector2 stringCrumb in _mainChar.breadcrumbs)
                     {
                         crumbString += "[" + stringCrumb.X + ", " + stringCrumb.Y + "],";
                     }
-                    GD.Print("Moving toward crumb at ", crumb);
-                    GD.Print("Breadcrumbs = ", crumbString);
+                    // GD.Print("Moving toward crumb at ", crumb);
+                    // GD.Print("Breadcrumbs = ", crumbString);
 
-                    Velocity = Speed * Position.DirectionTo(crumb);
-                    MoveAndSlide();
+                    target = crumb;
                     break;
                 }
             }
         }
+
+        Velocity = Speed * Position.DirectionTo(target);
+        MoveAndSlide();
     }
 }
