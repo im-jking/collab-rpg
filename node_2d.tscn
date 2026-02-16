@@ -10,14 +10,15 @@
 [ext_resource type="Script" uid="uid://6qcbw73ko2cf" path="res://SpeechText.cs" id="8_rj586"]
 [ext_resource type="Texture2D" uid="uid://dcwdxahctd7fa" path="res://mean-carrot.png" id="9_4d7sh"]
 [ext_resource type="Script" uid="uid://dhcborlg48whp" path="res://Enemy.cs" id="9_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://bl8r5fpe8cixy" path="res://health-bar-frame.png" id="11_x0ka3"]
+[ext_resource type="Texture2D" uid="uid://bxg00ciokctx5" path="res://health-bar-fill.png" id="12_0h7mo"]
+[ext_resource type="Texture2D" uid="uid://bewp4roynyin6" path="res://basic-arrow.png" id="13_0h7mo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_epypp"]
 size = Vector2(123, 122)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(64, 64)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ir8iy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
 size = Vector2(16, 32)
@@ -90,7 +91,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir8iy"]
 size = Vector2(20, 21.333334)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hqns4"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_nr8wp"]
 
 [node name="Node2D" type="Node2D" unique_id=1347346917]
 
@@ -116,10 +117,10 @@ stretch_mode = 1
 position = Vector2(190, 445)
 metadata/_edit_group_ = true
 
-[node name="MainChar" type="CharacterBody2D" parent="Party" unique_id=442391926 node_paths=PackedStringArray("enemy")]
+[node name="MainChar" type="CharacterBody2D" parent="Party" unique_id=442391926 node_paths=PackedStringArray("TestEnemy")]
 script = ExtResource("1_0e48y")
 MaxHealth = 100
-enemy = NodePath("../../Enemy")
+TestEnemy = NodePath("../../Enemy")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Party/MainChar" unique_id=404329291]
@@ -140,7 +141,14 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 220.0
 offset_bottom = 60.0
-texture = SubResource("PlaceholderTexture2D_ir8iy")
+texture = ExtResource("11_x0ka3")
+
+[node name="TextureRect" type="TextureRect" parent="Party/MainChar/Camera2D/HUD/PlayerHealthBar" unique_id=123310226]
+z_index = -1
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 39.0
+texture = ExtResource("12_0h7mo")
 
 [node name="Follower1" type="CharacterBody2D" parent="Party" unique_id=1633755751 node_paths=PackedStringArray("Leader")]
 script = ExtResource("3_0hol4")
@@ -233,13 +241,14 @@ grow_vertical = 0
 text = "Press E"
 horizontal_alignment = 1
 
-[node name="Enemy" type="CharacterBody2D" parent="." unique_id=1329357598]
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=1329357598 node_paths=PackedStringArray("HealthFillSprite")]
 position = Vector2(93, 213)
 scale = Vector2(2, 2)
 motion_mode = 1
 script = ExtResource("9_ir8iy")
 Speed = 100
 MaxHealth = 100
+HealthFillSprite = NodePath("EnemyHealthBar/HealthFill")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=1090622085]
@@ -255,8 +264,26 @@ path_desired_distance = 50.0
 target_desired_distance = 50.0
 
 [node name="EnemyHealthBar" type="TextureRect" parent="Enemy" unique_id=1419529207]
-offset_left = -10.0
-offset_top = -20.0
-offset_right = 10.0
-offset_bottom = -17.5
-texture = SubResource("PlaceholderTexture2D_hqns4")
+offset_left = -8.0
+offset_top = -21.0
+offset_right = 56.0
+offset_bottom = -5.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("11_x0ka3")
+
+[node name="HealthFill" type="Sprite2D" parent="Enemy/EnemyHealthBar" unique_id=350314845]
+z_index = -1
+texture = ExtResource("12_0h7mo")
+centered = false
+
+[node name="Weapons" type="Node2D" parent="." unique_id=1126709711]
+
+[node name="PhysProjectile" type="Area2D" parent="Weapons" unique_id=1932136870]
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapons/PhysProjectile" unique_id=812265263]
+shape = SubResource("CircleShape2D_nr8wp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Weapons/PhysProjectile" unique_id=2045413670]
+scale = Vector2(2, 2)
+texture = ExtResource("13_0h7mo")

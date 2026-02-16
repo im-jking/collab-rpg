@@ -11,6 +11,10 @@ public partial class Enemy : CharacterBody2D
     [Export]
     public int MaxHealth { get; set; }
 
+    // Health bar backfill - for setting size based on current health
+    [Export]
+    public Sprite2D HealthFillSprite;
+
     // Current health - operated on throughout script
     private int curHealth;
 
@@ -141,6 +145,7 @@ public partial class Enemy : CharacterBody2D
     // Function to call when damaging this enemy
     public void Damage(int damage)
     {
+        int prevHealth = curHealth;
         curHealth -= damage;
 
         // TODO: animation/healthbar changes
@@ -149,6 +154,15 @@ public partial class Enemy : CharacterBody2D
         {
             // TODO: Death state
             this.QueueFree();
+        }
+        else
+        {
+            // Update health bar animation
+            if (HealthFillSprite != null)
+            {
+                float factor = (1.0f * curHealth) / (1.0f * prevHealth);
+                HealthFillSprite.Scale *= new Vector2(factor, 1);
+            }
         }
     }
 }

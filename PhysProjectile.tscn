@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bm0ulhlyp07pa"]
+
+[ext_resource type="Texture2D" uid="uid://bewp4roynyin6" path="res://basic-arrow.png" id="1_3cwjk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w6a7t"]
+
+[node name="Node2D" type="Node2D" unique_id=1946220479]
+
+[node name="PhysProjectile" type="Area2D" parent="." unique_id=972898663]
+scale = Vector2(0.5, 0.5)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysProjectile" unique_id=1965315542]
+shape = SubResource("CircleShape2D_w6a7t")
+
+[node name="Sprite2D" type="Sprite2D" parent="PhysProjectile" unique_id=2027394038]
+scale = Vector2(2, 2)
+texture = ExtResource("1_3cwjk")

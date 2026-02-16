@@ -23,10 +23,13 @@ public partial class MainCharControl : CharacterBody2D
 
     // TEST: Enemy to damage
     [Export]
-    public Enemy enemy { get; set; }
+    public Enemy TestEnemy { get; set; }
 
     // Current health - operated on throughout script
     private int curHealth;
+
+    // Physical projectile (e.g., arrow) node to instantiate when firing
+    private PackedScene projectile;
 
     public override void _Ready()
     {
@@ -35,6 +38,9 @@ public partial class MainCharControl : CharacterBody2D
 
         // Initialize breadcrumbs queue
         breadcrumbs = new Queue<Vector2>();
+
+        // Load projectile scene
+        var scene = GD.Load<PackedScene>("res://PhysProjectile.tscn");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -63,9 +69,9 @@ public partial class MainCharControl : CharacterBody2D
         }
 
         // TEST: Damage enemy
-        if (Input.IsActionJustPressed("damage_test"))
+        if (Input.IsActionJustPressed("click"))
         {
-            enemy.Damage(50);
+            FirePhysProj();
         }
     }
 
@@ -112,5 +118,13 @@ public partial class MainCharControl : CharacterBody2D
         {
             // TODO: Death state
         }
+    }
+
+    private void FirePhysProj()
+    {
+        // Create a projectile instance and shoot it toward the mouse click
+        Node proj = projectile.Instantiate();
+        // Make projectile a child of the scene rather than the player or party
+        Owner.Owner.AddChild(proj);
     }
 }
