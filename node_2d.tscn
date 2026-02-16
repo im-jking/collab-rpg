@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bqgsdgvelbxj0"]
+[gd_scene format=3 uid="uid://bqgsdgvelbxj0"]
 
 [ext_resource type="Script" uid="uid://b5x11ccdaof7d" path="res://MainCharControl.cs" id="1_0e48y"]
 [ext_resource type="Texture2D" uid="uid://b4dk7ll28g0hy" path="res://brick-wall.png" id="1_q6r6c"]
@@ -16,6 +16,8 @@ size = Vector2(123, 122)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(64, 64)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ir8iy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
 size = Vector2(16, 32)
@@ -88,19 +90,21 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir8iy"]
 size = Vector2(20, 21.333334)
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hqns4"]
 
-[node name="Wall" type="RigidBody2D" parent="."]
+[node name="Node2D" type="Node2D" unique_id=1347346917]
+
+[node name="Wall" type="RigidBody2D" parent="." unique_id=1562333155]
 position = Vector2(431, 181)
 gravity_scale = 0.0
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" unique_id=809086933]
 position = Vector2(-0.5, 1)
 scale = Vector2(3.255, 1)
 shape = SubResource("RectangleShape2D_epypp")
 
-[node name="TextureRect" type="TextureRect" parent="Wall"]
+[node name="TextureRect" type="TextureRect" parent="Wall" unique_id=634633057]
 offset_left = -201.0
 offset_top = -60.0
 offset_right = 201.0
@@ -108,71 +112,80 @@ offset_bottom = 62.0
 texture = ExtResource("1_q6r6c")
 stretch_mode = 1
 
-[node name="Party" type="Node2D" parent="."]
+[node name="Party" type="Node2D" parent="." unique_id=1295413230]
 position = Vector2(190, 445)
 metadata/_edit_group_ = true
 
-[node name="MainChar" type="CharacterBody2D" parent="Party"]
+[node name="MainChar" type="CharacterBody2D" parent="Party" unique_id=442391926 node_paths=PackedStringArray("enemy")]
 script = ExtResource("1_0e48y")
+MaxHealth = 100
+enemy = NodePath("../../Enemy")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Party/MainChar"]
+[node name="Sprite2D" type="Sprite2D" parent="Party/MainChar" unique_id=404329291]
 scale = Vector2(2, 2)
 texture = ExtResource("3_q6r6c")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/MainChar"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/MainChar" unique_id=1264531434]
 shape = SubResource("RectangleShape2D_0e48y")
 
-[node name="Camera2D" type="Camera2D" parent="Party/MainChar"]
+[node name="Camera2D" type="Camera2D" parent="Party/MainChar" unique_id=1360388777]
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
-[node name="Follower1" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
+[node name="HUD" type="CanvasLayer" parent="Party/MainChar/Camera2D" unique_id=1583218204]
+
+[node name="PlayerHealthBar" type="TextureRect" parent="Party/MainChar/Camera2D/HUD" unique_id=378476926]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 60.0
+texture = SubResource("PlaceholderTexture2D_ir8iy")
+
+[node name="Follower1" type="CharacterBody2D" parent="Party" unique_id=1633755751 node_paths=PackedStringArray("Leader")]
 script = ExtResource("3_0hol4")
 Leader = NodePath("../MainChar")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Party/Follower1"]
+[node name="Sprite2D" type="Sprite2D" parent="Party/Follower1" unique_id=409239664]
 scale = Vector2(2, 2)
 texture = ExtResource("3_q6r6c")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower1" unique_id=458878033]
 shape = SubResource("RectangleShape2D_0e48y")
 disabled = true
 
-[node name="Follower2" type="CharacterBody2D" parent="Party" node_paths=PackedStringArray("Leader")]
+[node name="Follower2" type="CharacterBody2D" parent="Party" unique_id=1928697888 node_paths=PackedStringArray("Leader")]
 script = ExtResource("4_q6r6c")
 Leader = NodePath("../Follower1")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Party/Follower2"]
+[node name="Sprite2D" type="Sprite2D" parent="Party/Follower2" unique_id=890906515]
 scale = Vector2(2, 2)
 texture = ExtResource("3_q6r6c")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Party/Follower2" unique_id=92594178]
 shape = SubResource("RectangleShape2D_0e48y")
 disabled = true
 
-[node name="TalkNPC" type="RigidBody2D" parent="."]
+[node name="TalkNPC" type="RigidBody2D" parent="." unique_id=1741973494]
 position = Vector2(554, 340)
 gravity_scale = 0.0
 script = ExtResource("6_d21ai")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TalkNPC"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TalkNPC" unique_id=170084078]
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_kdubu")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TalkNPC"]
-libraries = {
-&"": SubResource("AnimationLibrary_rj586")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TalkNPC" unique_id=275340208]
+libraries/ = SubResource("AnimationLibrary_rj586")
 
-[node name="Sprite2D" type="Sprite2D" parent="TalkNPC"]
+[node name="Sprite2D" type="Sprite2D" parent="TalkNPC" unique_id=1853006245]
 scale = Vector2(2, 2)
 texture = ExtResource("6_kdubu")
 hframes = 6
 
-[node name="TextBox" type="ColorRect" parent="TalkNPC"]
+[node name="TextBox" type="ColorRect" parent="TalkNPC" unique_id=2079266713]
 z_index = -1
 clip_contents = true
 offset_left = -125.0
@@ -182,7 +195,7 @@ offset_bottom = 79.0
 color = Color(0.16078432, 0.16078432, 0.16078432, 0.57254905)
 metadata/_edit_group_ = true
 
-[node name="SpeechText" type="RichTextLabel" parent="TalkNPC/TextBox"]
+[node name="SpeechText" type="RichTextLabel" parent="TalkNPC/TextBox" unique_id=1032199877]
 z_index = 2
 layout_mode = 0
 offset_right = 250.0
@@ -192,7 +205,7 @@ scroll_active = false
 horizontal_alignment = 1
 script = ExtResource("8_rj586")
 
-[node name="IntTextControl" type="Control" parent="TalkNPC"]
+[node name="IntTextControl" type="Control" parent="TalkNPC" unique_id=1693054322]
 visible = false
 layout_mode = 3
 anchors_preset = 7
@@ -204,7 +217,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_d21ai")
 
-[node name="InteractText" type="RichTextLabel" parent="TalkNPC/IntTextControl"]
+[node name="InteractText" type="RichTextLabel" parent="TalkNPC/IntTextControl" unique_id=1023827206]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -220,22 +233,30 @@ grow_vertical = 0
 text = "Press E"
 horizontal_alignment = 1
 
-[node name="Enemy" type="CharacterBody2D" parent="."]
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=1329357598]
 position = Vector2(93, 213)
 scale = Vector2(2, 2)
 motion_mode = 1
 script = ExtResource("9_ir8iy")
 Speed = 100
+MaxHealth = 100
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=1090622085]
 position = Vector2(0, 7.1525574e-07)
 scale = Vector2(0.75, 1.5)
 shape = SubResource("RectangleShape2D_ir8iy")
 
-[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
+[node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=690363190]
 texture = ExtResource("9_4d7sh")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy"]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy" unique_id=1555641602]
 path_desired_distance = 50.0
 target_desired_distance = 50.0
+
+[node name="EnemyHealthBar" type="TextureRect" parent="Enemy" unique_id=1419529207]
+offset_left = -10.0
+offset_top = -20.0
+offset_right = 10.0
+offset_bottom = -17.5
+texture = SubResource("PlaceholderTexture2D_hqns4")

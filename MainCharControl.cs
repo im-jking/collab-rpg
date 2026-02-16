@@ -17,17 +17,31 @@ public partial class MainCharControl : CharacterBody2D
     // Breadcrumbs - recent locations for enemies to follow
     public Queue<Vector2> breadcrumbs;
 
+    // Maximum health - declared in editor
+    [Export]
+    public int MaxHealth { get; set; }
+
+    // TEST: Enemy to damage
+    [Export]
+    public Enemy enemy { get; set; }
+
+    // Current health - operated on throughout script
+    private int curHealth;
+
+    public override void _Ready()
+    {
+        // Set initial health
+        curHealth = MaxHealth;
+
+        // Initialize breadcrumbs queue
+        breadcrumbs = new Queue<Vector2>();
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         GetInput();
         MoveAndSlide();
         ProcessBreadcrumb();
-    }
-
-    public override void _Ready()
-    {
-        // Initialize breadcrumbs queue
-        breadcrumbs = new Queue<Vector2>();
     }
 
     public void GetInput()
@@ -46,6 +60,12 @@ public partial class MainCharControl : CharacterBody2D
         {
             SpeechText intTextScript = intTextBox as SpeechText;
             intTextScript.ScrollDown();
+        }
+
+        // TEST: Damage enemy
+        if (Input.IsActionJustPressed("damage_test"))
+        {
+            enemy.Damage(50);
         }
     }
 
@@ -78,6 +98,19 @@ public partial class MainCharControl : CharacterBody2D
         {
             // If no crumbs yet, place one!
             breadcrumbs.Enqueue(curPos);
+        }
+    }
+
+    // Function for enemies to call when damaging this character
+    public void Damage(int damage)
+    {
+        curHealth -= damage;
+
+        // TODO: animation/healthbar changes
+
+        if (curHealth <= 0)
+        {
+            // TODO: Death state
         }
     }
 }

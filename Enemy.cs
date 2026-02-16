@@ -7,6 +7,13 @@ public partial class Enemy : CharacterBody2D
     [Export]
     public int Speed { get; set; }
 
+    // Maximum health - declared in editor for generality
+    [Export]
+    public int MaxHealth { get; set; }
+
+    // Current health - operated on throughout script
+    private int curHealth;
+
     // The MainChar that will be tracked
     private MainCharControl _mainChar;
 
@@ -16,7 +23,10 @@ public partial class Enemy : CharacterBody2D
     // Current target of movement
     private Vector2 target;
 
-    public override void _Ready() { }
+    public override void _Ready()
+    {
+        curHealth = MaxHealth;
+    }
 
     public override void _Process(double delta)
     {
@@ -126,5 +136,19 @@ public partial class Enemy : CharacterBody2D
 
         Velocity = Speed * Position.DirectionTo(target);
         MoveAndSlide();
+    }
+
+    // Function to call when damaging this enemy
+    public void Damage(int damage)
+    {
+        curHealth -= damage;
+
+        // TODO: animation/healthbar changes
+
+        if (curHealth <= 0)
+        {
+            // TODO: Death state
+            this.QueueFree();
+        }
     }
 }
